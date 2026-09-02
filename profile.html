@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BWGAMES | Profile</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="glow-top-left"></div>
+        <div class="glow-top-right"></div>
+        <div class="bg-grid"></div>
+
+        <header class="app-header">
+            <a href="home.html" class="header-icon-btn" aria-label="Go Back">
+                <i class="fa-solid fa-chevron-left"></i>
+            </a>
+            <div class="header-brand">
+                <span class="brand-logo"><span>BW</span>GAMES</span>
+                <span class="header-sub">Profile</span>
+            </div>
+            <div class="header-actions">
+                <button class="header-icon-btn" aria-label="Support">
+                    <i class="fa-solid fa-headset"></i>
+                </button>
+                <button class="header-icon-btn notification-btn" aria-label="Notifications">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notification-badge"></span>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-container">
+
+            <div id="toast" class="toast hidden">
+                <i id="toast-icon" class="fa-solid fa-circle-check"></i>
+                <span id="toast-message">Message</span>
+            </div>
+
+            <!-- 1. Profile Card -->
+            <section class="profile-card skeleton-container" id="profile-card">
+                <div class="profile-avatar-box">
+                    <div class="profile-avatar" id="avatar-container">
+                        <span id="avatar-text">?</span>
+                    </div>
+                    <button class="avatar-edit-badge" onclick="openEditModal()" aria-label="Edit Profile">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                </div>
+
+                <div class="profile-main-info">
+                    <h2 class="user-fullname skeleton-box" id="user-name">Loading...</h2>
+                    
+                    <div class="user-id-pill skeleton-box" onclick="copyUserId()">
+                        <span id="user-id-text">User ID: -----</span>
+                        <i class="fa-regular fa-copy copy-icon"></i>
+                    </div>
+
+                    <div class="user-status-row">
+                        <span class="status-indicator-dot"></span>
+                        <span class="status-text" id="user-status">Active Account</span>
+                    </div>
+
+                    <div class="member-since-box">
+                        <span class="member-label">Member Since</span>
+                        <span class="member-date" id="member-date"><i class="fa-regular fa-calendar"></i> -- --- ----</span>
+                    </div>
+                </div>
+
+                <div class="card-arrow-right" onclick="openEditModal()">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </div>
+            </section>
+
+            <!-- 2. Wallet Card -->
+            <section class="wallet-card skeleton-container" id="wallet-card">
+                <div class="wallet-watermark">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+
+                <div class="wallet-card-header">
+                    <span class="wallet-label">Total Balance</span>
+                </div>
+
+                <div class="wallet-amount-row">
+                    <h1 class="wallet-amount skeleton-box" id="wallet-balance">₹0.00</h1>
+                    <div class="currency-badge">
+                        <span id="wallet-currency">INR</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+
+                <div class="wallet-button-grid">
+                    <a href="deposit.html" class="btn btn-deposit">
+                        <i class="fa-solid fa-wallet"></i>
+                        <span>Deposit</span>
+                    </a>
+                    <a href="withdrawal.html" class="btn btn-withdraw">
+                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                        <span>Withdraw</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- 3. Personal Information -->
+            <section class="section-container">
+                <div class="section-header-row">
+                    <h3 class="section-title">Personal Information</h3>
+                    <button class="edit-link-btn" onclick="openEditModal()">
+                        <i class="fa-solid fa-pen"></i> Edit Profile
+                    </button>
+                </div>
+
+                <div class="info-card-list skeleton-container" id="info-card-list">
+                    <div class="info-row" onclick="openEditModal()">
+                        <div class="info-icon-box"><i class="fa-regular fa-user"></i></div>
+                        <div class="info-content">
+                            <span class="info-label">Full Name</span>
+                            <span class="info-val skeleton-box" id="info-fullname">--</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right row-arrow"></i>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-icon-box"><i class="fa-regular fa-envelope"></i></div>
+                        <div class="info-content">
+                            <span class="info-label">Email Address</span>
+                            <span class="info-val skeleton-box" id="info-email">--</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right row-arrow"></i>
+                    </div>
+
+                    <div class="info-row" onclick="openEditModal()">
+                        <div class="info-icon-box"><i class="fa-solid fa-phone"></i></div>
+                        <div class="info-content">
+                            <span class="info-label">Phone Number</span>
+                            <span class="info-val skeleton-box" id="info-phone">--</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right row-arrow"></i>
+                    </div>
+
+                    <div class="info-row" onclick="copyUserId()">
+                        <div class="info-icon-box"><i class="fa-regular fa-id-badge"></i></div>
+                        <div class="info-content">
+                            <span class="info-label">User ID</span>
+                            <span class="info-val skeleton-box" id="info-userid">--</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right row-arrow"></i>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="info-content">
+                            <span class="info-label">Account Status</span>
+                            <span class="status-badge" id="info-status-badge">Active</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right row-arrow"></i>
+                    </div>
+
+                    <div class="info-row">
+                        <div class="info-icon-box"><i class="fa-regular fa-calendar-days"></i></div>
+                        <div class="info-content">
+                            <span class="info-label">Joined Date</span>
+                            <span class="info-val skeleton-box" id="info-joined">--</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right row-arrow"></i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. Account Actions -->
+            <section class="section-container">
+                <h3 class="section-title">Account Actions</h3>
+                <div class="actions-grid">
+                    <button class="action-card" onclick="openEditModal()">
+                        <div class="action-icon-wrap"><i class="fa-solid fa-user-pen"></i></div>
+                        <span class="action-card-title">Edit Profile</span>
+                    </button>
+                    
+                    <button class="action-card action-logout" onclick="handleLogout()">
+                        <div class="action-icon-wrap"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+                        <span class="action-card-title">Logout</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 5. My Activity (2 Balanced Full-Width Cards) -->
+            <section class="section-container">
+                <div class="activity-header">
+                    <h3 class="section-title active-tab">My Activity</h3>
+                </div>
+
+                <div class="activity-grid">
+                    <a href="bets.html" class="activity-card">
+                        <div class="activity-icon-box"><i class="fa-solid fa-gamepad"></i></div>
+                        <span class="activity-title">My Bets</span>
+                        <span class="activity-desc">View your round bets</span>
+                        <div class="activity-arrow-circle"><i class="fa-solid fa-chevron-right"></i></div>
+                    </a>
+
+                    <a href="transactions.html" class="activity-card">
+                        <div class="activity-icon-box"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+                        <span class="activity-title">Transactions</span>
+                        <span class="activity-desc">View balance statement</span>
+                        <div class="activity-arrow-circle"><i class="fa-solid fa-chevron-right"></i></div>
+                    </a>
+                </div>
+            </section>
+
+            <div class="bottom-spacer"></div>
+        </main>
+
+        <!-- Edit Profile Modal -->
+        <div id="edit-modal" class="modal-overlay hidden" onclick="closeEditModalOnOverlay(event)">
+            <div class="modal-sheet">
+                <div class="modal-header">
+                    <h3>Edit Profile</h3>
+                    <button class="modal-close-btn" onclick="closeEditModal()"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                
+                <form id="edit-profile-form" onsubmit="handleSaveProfile(event)">
+                    <div class="modal-input-group">
+                        <label for="edit-name">Full Name</label>
+                        <input type="text" id="edit-name" placeholder="Enter Full Name" required>
+                    </div>
+
+                    <div class="modal-input-group">
+                        <label for="edit-phone">Phone Number</label>
+                        <input type="tel" id="edit-phone" placeholder="Enter Phone Number" required>
+                    </div>
+
+                    <div class="modal-input-group disabled">
+                        <label for="edit-email">Email (Cannot be modified)</label>
+                        <input type="email" id="edit-email" disabled>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-cancel" onclick="closeEditModal()">Cancel</button>
+                        <button type="submit" class="btn btn-save" id="save-profile-btn">
+                            <span class="btn-text">Save Changes</span>
+                            <div class="btn-loader hidden"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="bw.html" class="nav-item">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>Game</span>
+            </a>
+            <a href="wallet.html" class="nav-item">
+                <i class="fa-solid fa-wallet"></i>
+                <span>Wallet</span>
+            </a>
+            <a href="profile.html" class="nav-item active">
+                <div class="active-pill">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="key/key.js"></script>
+    <script src="profile.js"></script>
+</body>
+</html>

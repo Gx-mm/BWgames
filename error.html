@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BWGAMES | Coming Soon</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-main: #08080a;
+            --card-bg: #121319;
+            --card-border: #1f212a;
+            --primary-red: #e50914;
+            --primary-red-hover: #ff1e27;
+            --primary-red-glow: rgba(229, 9, 20, 0.35);
+            --text-white: #ffffff;
+            --text-gray: #8f92a1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Glow */
+        .glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--primary-red-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand {
+            font-size: 1.4rem;
+            font-weight: 900;
+            font-style: italic;
+            margin-bottom: 25px;
+        }
+        .brand span { color: var(--primary-red); }
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: rgba(229, 9, 20, 0.1);
+            border: 1px solid rgba(229, 9, 20, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary-red);
+            box-shadow: 0 0 20px var(--primary-red-glow);
+        }
+
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        p {
+            font-size: 0.88rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-red);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 14px var(--primary-red-glow);
+            transition: all 0.25s ease;
+        }
+
+        .btn-home:hover {
+            background: var(--primary-red-hover);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="glow"></div>
+
+    <div class="container">
+        <div class="brand"><span>BW</span>GAMES</div>
+
+        <div class="icon-box">
+            <i class="fa-solid fa-gamepad"></i>
+        </div>
+
+        <h2>Under Development</h2>
+        <p>Yeh section ya game abhi under maintenance / development hai. Bahut jald live kiya jayega!</p>
+
+        <a href="home.html" class="btn-home">
+            <i class="fa-solid fa-house"></i>
+            <span>BACK TO HOME</span>
+        </a>
+    </div>
+</body>
+</html>

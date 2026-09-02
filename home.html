@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BWGAMES | Play Smart. Win Right.</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="glow-top-left"></div>
+        <div class="glow-top-right"></div>
+        <div class="bg-grid"></div>
+
+        <header class="app-header">
+            <div class="header-brand">
+                <span class="brand-logo"><span>BW</span>GAMES</span>
+            </div>
+
+            <div class="header-right">
+                <div class="wallet-capsule skeleton-container" id="header-wallet-container" onclick="safeNavigate('wallet.html')">
+                    <i class="fa-solid fa-wallet wallet-mini-icon"></i>
+                    <span class="wallet-balance-text skeleton-box" id="header-balance">₹0.00</span>
+                    <button class="deposit-plus-btn" onclick="event.stopPropagation(); safeNavigate('deposit.html')" aria-label="Deposit">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+
+                <a href="profile.html" class="header-avatar-btn" id="header-avatar" aria-label="Profile">
+                    <span id="header-avatar-initial">?</span>
+                </a>
+            </div>
+        </header>
+
+        <main class="main-container">
+            
+            <div id="toast" class="toast hidden">
+                <i id="toast-icon" class="fa-solid fa-circle-check"></i>
+                <span id="toast-message">Message</span>
+            </div>
+
+            <section class="banner-carousel-section" id="banner-carousel">
+                <div class="carousel-track-wrapper">
+                    <div class="carousel-track" id="carousel-track">
+                        <div class="carousel-slide active" style="background-image: linear-gradient(135deg, rgba(229, 9, 20, 0.25) 0%, rgba(18, 19, 25, 0.95) 75%), url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80');">
+                            <div class="slide-content">
+                                <span class="slide-tag"><i class="fa-solid fa-fire"></i> FEATURED</span>
+                                <h2 class="slide-title">PLAY SMART.<br><span>WIN RIGHT.</span></h2>
+                                <p class="slide-subtitle">EXCITING GAMES, BIG WINS!</p>
+                                <button class="btn btn-play-banner" onclick="openGame('aviator.html')">
+                                    <span>PLAY NOW</span>
+                                    <i class="fa-solid fa-bolt"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide" style="background-image: linear-gradient(135deg, rgba(229, 9, 20, 0.2) 0%, rgba(18, 19, 25, 0.95) 75%), url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80');">
+                            <div class="slide-content">
+                                <span class="slide-tag"><i class="fa-solid fa-crown"></i> MEGA JACKPOT</span>
+                                <h2 class="slide-title">SLOTS &<br><span>LOTTERY</span></h2>
+                                <p class="slide-subtitle">DAILY MULTIPLIERS UP TO 1000X</p>
+                                <button class="btn btn-play-banner" onclick="openGame('lottery.html')">
+                                    <span>PLAY NOW</span>
+                                    <i class="fa-solid fa-bolt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-dots" id="carousel-dots">
+                    <span class="dot active" onclick="jumpToSlide(0)"></span>
+                    <span class="dot" onclick="jumpToSlide(1)"></span>
+                </div>
+            </section>
+
+            <section class="quick-actions-grid">
+                <div class="action-btn-card" onclick="safeNavigate('deposit.html')">
+                    <div class="action-icon-circle"><i class="fa-solid fa-wallet"></i></div>
+                    <span class="action-label">Recharge</span>
+                </div>
+
+                <div class="action-btn-card" onclick="safeNavigate('withdrawal.html')">
+                    <div class="action-icon-circle"><i class="fa-solid fa-arrow-up-from-bracket"></i></div>
+                    <span class="action-label">Withdraw</span>
+                </div>
+
+                <div class="action-btn-card" onclick="safeNavigate('referral.html')">
+                    <div class="action-icon-circle"><i class="fa-solid fa-user-group"></i></div>
+                    <span class="action-label">Refer & Earn</span>
+                </div>
+
+                <div class="action-btn-card" onclick="safeNavigate('vip.html')">
+                    <div class="action-icon-circle"><i class="fa-solid fa-crown"></i></div>
+                    <span class="action-label">VIP Club</span>
+                </div>
+            </section>
+
+            <div id="game-categories-container">
+                <div class="category-skeleton-wrap skeleton-container">
+                    <div class="category-header-row">
+                        <div class="skeleton-box" style="width: 130px; height: 20px;"></div>
+                        <div class="skeleton-box" style="width: 70px; height: 16px;"></div>
+                    </div>
+                    <div class="games-grid">
+                        <div class="game-card-skeleton skeleton-box"></div>
+                        <div class="game-card-skeleton skeleton-box"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-spacer"></div>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item active">
+                <div class="active-pill">
+                    <i class="fa-solid fa-house"></i>
+                </div>
+                <span>Home</span>
+            </a>
+
+            <a href="javascript:void(0)" onclick="safeNavigate('game.html')" class="nav-item">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>Game</span>
+            </a>
+
+            <a href="javascript:void(0)" onclick="safeNavigate('wallet.html')" class="nav-item">
+                <i class="fa-solid fa-wallet"></i>
+                <span>Wallet</span>
+            </a>
+
+            <a href="javascript:void(0)" onclick="safeNavigate('profile.html')" class="nav-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="key/key.js"></script>
+    <script src="home.js"></script>
+</body>
+</html>
