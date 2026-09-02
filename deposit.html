@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BWGAMES | Instant Deposit</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="deposit.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="glow-top-left"></div>
+        <div class="glow-top-right"></div>
+        <div class="bg-grid"></div>
+
+        <header class="app-header">
+            <a href="home.html" class="header-icon-btn" aria-label="Go Back">
+                <i class="fa-solid fa-chevron-left"></i>
+            </a>
+            <div class="header-brand">
+                <span class="brand-logo"><span>BW</span>GAMES</span>
+                <span class="header-sub">Instant Deposit</span>
+            </div>
+            <div class="wallet-badge" onclick="window.location.href='wallet.html'">
+                <i class="fa-solid fa-wallet"></i>
+                <span id="current-balance">₹0.00</span>
+            </div>
+        </header>
+
+        <main class="main-container">
+            <!-- Toast Notification -->
+            <div id="toast" class="toast hidden">
+                <i id="toast-icon" class="fa-solid fa-circle-check"></i>
+                <span id="toast-message">Message</span>
+            </div>
+
+            <!-- Amount Selection Card -->
+            <section class="deposit-card">
+                <span class="card-subtitle">Choose or Enter Amount</span>
+                <div class="amount-input-box">
+                    <span class="currency-symbol">₹</span>
+                    <input type="number" id="deposit-amount" value="500" min="100" placeholder="Min ₹100">
+                </div>
+
+                <div class="quick-chips-grid">
+                    <button class="chip-btn" onclick="setQuickAmount(200)">₹200</button>
+                    <button class="chip-btn active" onclick="setQuickAmount(500)">₹500</button>
+                    <button class="chip-btn" onclick="setQuickAmount(1000)">₹1,000</button>
+                    <button class="chip-btn" onclick="setQuickAmount(2000)">₹2,000</button>
+                    <button class="chip-btn" onclick="setQuickAmount(5000)">₹5,000</button>
+                    <button class="chip-btn" onclick="setQuickAmount(10000)">₹10,000</button>
+                </div>
+            </section>
+
+            <!-- Dynamic UPI QR Card -->
+            <section class="deposit-card qr-section">
+                <div class="qr-header">
+                    <h3><i class="fa-solid fa-qrcode"></i> Scan with Any UPI App</h3>
+                    <span class="live-tag">AUTO VERIFY</span>
+                </div>
+
+                <div class="qr-box">
+                    <img id="upi-qr-image" src="" alt="Payment QR Code">
+                </div>
+
+                <div class="upi-id-pill">
+                    <span class="upi-id-label">UPI ID:</span>
+                    <strong id="display-upi-id">bharatpe.9027429188@fbpe</strong>
+                    <button class="copy-btn" onclick="copyUPI()"><i class="fa-regular fa-copy"></i> Copy</button>
+                </div>
+            </section>
+
+            <!-- 12-Digit UTR Verification Card -->
+            <section class="deposit-card">
+                <span class="card-subtitle">Enter 12-Digit Reference / UTR Number</span>
+                <div class="utr-input-box">
+                    <i class="fa-solid fa-receipt utr-icon"></i>
+                    <input type="text" id="utr-number" maxlength="12" placeholder="e.g. 423456789012" oninput="validateUTRInput(this)">
+                </div>
+
+                <button class="btn-verify-deposit" id="btn-submit-deposit" onclick="submitDepositVerification()">
+                    <span class="btn-text"><i class="fa-solid fa-shield-halved"></i> VERIFY & CREDIT</span>
+                    <div class="btn-loader hidden"></div>
+                </button>
+            </section>
+
+            <!-- Instructions Card -->
+            <section class="instructions-card">
+                <h4><i class="fa-solid fa-circle-info"></i> How to Complete Payment:</h4>
+                <ol>
+                    <li>Choose your deposit amount and scan the QR code via PhonePe, Paytm, or Google Pay.</li>
+                    <li>Pay the exact amount shown on the screen.</li>
+                    <li>Copy the <strong>12-digit UTR / Ref No</strong> from your transaction receipt.</li>
+                    <li>Paste the UTR number above and click <strong>Verify & Credit</strong>.</li>
+                    <li>Your wallet balance will update instantly upon background verification.</li>
+                </ol>
+            </section>
+
+            <div class="bottom-spacer"></div>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="home.html" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+            <a href="bw.html" class="nav-item">
+                <i class="fa-solid fa-gamepad"></i>
+                <span>Game</span>
+            </a>
+            <a href="wallet.html" class="nav-item active">
+                <div class="active-pill">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <span>Wallet</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <script src="key/key.js"></script>
+    <script src="deposit.js"></script>
+</body>
+</html>
