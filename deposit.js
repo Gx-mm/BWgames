@@ -1,13 +1,12 @@
 /**
- * BWGAMES - Deposit Controller
- * Connects Vercel frontend with BharatPe API (https://api99.site.je/api-verify.php)
- * Credits wallet via credit_deposit_secure RPC
+ * BWGAMES - Deposit Controller with Live UTR Verification Gateway
+ * Endpoint: https://api99.site.je/api-verify.php
  */
 
 const RECEIVER_UPI_ID = "bharatpe.9027429188@fbpe";
 const MERCHANT_NAME = "BWGAMES";
 
-// External API Gateway Endpoint on api99.site.je
+// Live external gateway URL
 const PHP_VERIFY_ENDPOINT = "https://api99.site.je/api-verify.php";
 
 let activeUserId = null;
@@ -18,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Authenticate Session
     activeUserId = localStorage.getItem('bwgames_session');
     if (!activeUserId) {
         window.location.replace('login.html');
@@ -31,13 +29,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Default QR with ₹500
     renderDynamicQR(500);
 
-    // Live update QR when player inputs amount
+    // Live update QR as user types amount
     document.getElementById("deposit-amount").addEventListener("input", (e) => {
         const amt = parseFloat(e.target.value) || 100;
         renderDynamicQR(amt);
     });
 });
 
+/**
+ * 1. Fetch User Balance
+ */
 async function loadWalletBalance(userId) {
     try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/wallets?user_id=eq.${encodeURIComponent(userId)}&select=balance,currency`, {
@@ -55,10 +56,13 @@ async function loadWalletBalance(userId) {
             }).format(wallets[0].balance);
         }
     } catch (e) {
-        console.error("Wallet balance fetch error:", e);
+        console.error("Wallet load error:", e);
     }
 }
 
+/**
+ * 2. Amount Helpers & QR Generation
+ */
 function setQuickAmount(amount) {
     document.getElementById("deposit-amount").value = amount;
     document.querySelectorAll(".chip-btn").forEach(btn => {
@@ -84,7 +88,7 @@ function validateUTRInput(input) {
 }
 
 /**
- * Main Payment Submission & RPC Credit Flow
+ * 3. Main Verification & Database Credit Flow
  */
 async function submitDepositVerification() {
     const amount = parseFloat(document.getElementById("deposit-amount").value);
@@ -103,30 +107,37 @@ async function submitDepositVerification() {
     setButtonLoading(true);
 
     try {
-        // Step 1: Verify from BharatPe via https://api99.site.je/api-verify.php
-        const phpResponse = await fetch(PHP_VERIFY_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                amount: amount,
-                utr: utr
-            })
-        });
+        // Step 1: Call api-verify.php on api99.site.je
+        let apiData = null;
+        try {
+            const phpResponse = await fetch(PHP_VERIFY_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    amount: amount,
+                    utr: utr
+                })
+            });
 
-        if (!phpResponse.ok) {
-            throw new Error(`Gateway returned HTTP ${phpResponse.status}. Verification server unreachable.`);
+            if (!phpResponse.ok) {
+                throw new Error(`Gateway returned HTTP ${phpResponse.status}`);
+            }
+
+            apiData = await phpResponse.json();
+        } catch (fetchErr) {
+            console.error("API Gateway Fetch Error:", fetchErr);
+            throw new Error("Unable to connect to payment server. Check network or server status.");
         }
 
-        const apiData = await phpResponse.json();
-
-        // Step 2: Validate API Response Status
-        if (!apiData.status) {
-            throw new Error(apiData.message || "Payment verification failed with bank.");
+        // Step 2: Validate Verification Response
+        if (!apiData || apiData.status !== true) {
+            throw new Error(apiData?.message || "Payment verification failed with bank.");
         }
 
-        // Step 3: Atomic Credit to Supabase Database
+        // Step 3: Atomic Credit into Database (credit_deposit_secure RPC)
         const rpcResponse = await fetch(`${SUPABASE_URL}/rest/v1/rpc/credit_deposit_secure`, {
             method: 'POST',
             headers: {
@@ -144,12 +155,11 @@ async function submitDepositVerification() {
         const rpcData = await rpcResponse.json();
 
         if (!rpcResponse.ok) {
-            throw new Error(rpcData.message || "UTR verified but failed to credit wallet.");
+            throw new Error(rpcData.message || "UTR verified but failed to add amount to wallet.");
         }
 
         showToast(`₹${amount} Deposited Successfully!`, "success");
 
-        // Clear input and reload balance
         document.getElementById("utr-number").value = "";
         loadWalletBalance(activeUserId);
 
@@ -158,13 +168,16 @@ async function submitDepositVerification() {
         }, 1800);
 
     } catch (err) {
-        console.error("Deposit Processing Error:", err);
+        console.error("Deposit Error:", err);
         showToast(err.message, "error");
     } finally {
         setButtonLoading(false);
     }
 }
 
+/**
+ * 4. UI Loader & Toast Controls
+ */
 function setButtonLoading(isLoading) {
     const btn = document.getElementById("btn-submit-deposit");
     if (!btn) return;
