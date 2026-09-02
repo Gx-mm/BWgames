@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/verify",
+      "destination": "https://api99.site.je/api-verify.php"
+    }
+  ]
+}
